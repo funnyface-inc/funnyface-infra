@@ -1,0 +1,40 @@
+---
+- hosts: web
+  user: ec2user
+
+  vars:
+    python_version: 3.6.4
+
+  tasks:
+    - name: install build python package
+      become: yes
+      yum: name={{item}} state=installed
+      with_items:
+          - gcc
+          - gcc-c++
+          - git
+          - patch
+          - readline-devel
+          - zlib-devel
+          - openssl-devel
+          - libxml2-devel
+          - libxslt-devel
+          - libselinux-python
+          - bzip2-devel
+
+    - name: install pyenv
+      args:
+          creates: ~/.pyenv
+      shell: |
+          git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+          ## add pyenv env
+          (
+          echo 'export PYENV_ROOT=~/.pyenv'
+          echo 'export PATH=$PYENV_ROOT/bin:$PATH'
+          echo 'eval "$(pyenv init -)"'
+          ) >> ~/.bashrc
+          source ~/.bashrc
+          # install python
+          pyenv install {{python_version}}
+          pyenv rehash
+          pyenv global {{python_version}}

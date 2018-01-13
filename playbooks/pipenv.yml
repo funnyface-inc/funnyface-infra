@@ -1,0 +1,8 @@
+---
+- hosts: web
+  user: ec2user
+
+  tasks:
+    - name: install pipenv
+      shell:
+          pip install pipenv
