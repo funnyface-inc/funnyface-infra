@@ -1,0 +1,8 @@
+---
+- hosts: web
+  user: ec2user
+
+  tasks:
+    - name: install nginx
+      become: yes
+      yum: name=nginx state=latest
