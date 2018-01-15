@@ -1,0 +1,18 @@
+---
+- hosts: web
+  user: ec2user
+
+  vars:
+    user: ec2user
+
+  tasks:
+    - name: install zsh
+      become: yes
+      yum : name=zsh state=installed
+
+
+    - name: Clone oh-my-zsh repo
+      git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=/home/$user/.oh-my-zsh
+
+    - name: Set zsh as default shell
+      user: name=$user shell=/bin/zsh
