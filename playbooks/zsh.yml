@@ -1,18 +1,26 @@
 ---
 - hosts: web
-  user: ec2user
+  user: ec2-user
 
   vars:
-    user: ec2user
+    user: ec2-user
 
   tasks:
     - name: install zsh
       become: yes
-      yum : name=zsh state=installed
+      yum : name={{item}} state=installed
+      with_items:
+          - git
+          - zsh
 
 
     - name: Clone oh-my-zsh repo
-      git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=/home/$user/.oh-my-zsh
+      become: yes
+      git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=/home/{{user}}/.oh-my-zsh
 
     - name: Set zsh as default shell
-      user: name=$user shell=/bin/zsh
+      become: yes
+      user: name={{user}} shell=/bin/zsh
+
+    - name: Creating new ~/.zshrc
+      copy: src=~/.oh-my-zsh/templates/zshrc.zsh-template dest=~/.zshrc
