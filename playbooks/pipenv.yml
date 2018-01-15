@@ -1,8 +1,10 @@
 ---
 - hosts: web
-  user: ec2user
+  user: ec2-user
 
   tasks:
+    - name: read .zshrc
+      shell: source ~/.zshrc executable=/bin/zsh
+
     - name: install pipenv
-      shell:
-          pip install pipenv
+      shell: ~/.pyenv/shims/pip install pipenv

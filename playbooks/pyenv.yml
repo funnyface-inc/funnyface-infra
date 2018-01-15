@@ -1,6 +1,6 @@
 ---
 - hosts: web
-  user: ec2user
+  user: ec2-user
 
   vars:
     python_version: 3.6.4
@@ -22,11 +22,11 @@
           - libselinux-python
           - bzip2-devel
 
-    - name: install pyenv
-      args:
-          creates: ~/.pyenv
+    - name: clone pyenv repo
+      git: repo=https://github.com/yyuu/pyenv.git dest=~/.pyenv
+
+    - name: install pyenv and python
       shell: |
-          git clone https://github.com/yyuu/pyenv.git ~/.pyenv
           ## add pyenv env
           (
           echo 'export PYENV_ROOT=~/.pyenv'
