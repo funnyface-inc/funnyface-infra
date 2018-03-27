@@ -1,0 +1,14 @@
+---
+- hosts: web
+  user: ec2-user
+
+  tasks:
+    - name: setup nodejs6.x
+      become: yes
+      shell: curl -sL https://rpm.nodesource.com/setup_8.x | sudo -E bash -
+
+    - name: install node using yum
+      become: yes
+      yum:
+        name: nodejs
+        state: installed

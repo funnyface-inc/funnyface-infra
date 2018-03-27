@@ -1,0 +1,18 @@
+---
+- hosts: web
+  user: ec2-user
+
+  tasks:
+    - name: setup mongo repo
+      become: yes
+      shell: |
+          echo "[MongoDB]
+          name=MongoDB Repository
+          baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64
+          gpgcheck=0
+          enabled=1" | sudo tee -a /etc/yum.repos.d/mongodb.repo
+
+    - name: install mongodb
+      become: yes
+      yum:
+        name: mongodb-org
