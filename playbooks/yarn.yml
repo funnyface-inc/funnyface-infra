@@ -3,5 +3,12 @@
   user: ec2-user
 
   tasks:
-    - name: setup yarn
-      shell: curl -o- -L https://yarnpkg.com/install.sh | bash
+    - name: setup yarn repo
+      become: yes
+      shell: curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+
+    - name: install yarn
+      become: yes
+      yum:
+        name: yarn
+        state: installed
