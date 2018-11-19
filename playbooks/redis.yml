@@ -1,0 +1,13 @@
+---
+- hosts: web
+  user: ec2-user
+
+  vars:
+    user: ec2-user
+
+  tasks:
+    - name: install redis
+      become: yes
+      yum:
+        name: redis
+        enablerepo: epel
